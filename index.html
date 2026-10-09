@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#10121b">
+  <meta name="description" content="Русская пиксельная аркада: управляй словами, а не WASD. Текст и необязательный голос.">
+  <title>ORI I BEGI — ори и беги</title>
+  <style>/* Original neon terminal/CRT visual system. No fonts or assets fetched. */
+:root{color-scheme:dark;--bg:#10121b;--panel:#181b27;--line:#303544;--muted:#a0a7bb;--white:#f4f4ee;--mint:#c6ff68;--cyan:#7ce5db;--purple:#b59aff;--gold:#ffcf68;font-family:"Courier New",ui-monospace,monospace}
+*{box-sizing:border-box}body{margin:0;color:var(--white);background:var(--bg);background-image:radial-gradient(ellipse at 12% 0%,#202631 0%,transparent 48%);font-size:13px;line-height:1.5}button,input{font:inherit}button{cursor:pointer;border:1px solid var(--line);color:var(--white);background:#212533;min-height:40px;transition:background .12s,color .12s,border-color .12s}button:hover:not(:disabled){border-color:var(--mint);background:#2c3340}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}button:active:not(:disabled){transform:translateY(1px)}button[hidden],[hidden]{display:none!important}.shell{max-width:1120px;margin:0 auto;padding:34px 36px 20px}.masthead{display:flex;align-items:center;justify-content:space-between;gap:25px;margin-bottom:27px}.eyebrow{font-size:10px;letter-spacing:2.5px;font-weight:bold;color:var(--muted);display:flex;gap:10px;align-items:center}.pixel-dot{width:7px;height:7px;display:inline-block;background:var(--mint);box-shadow:4px 4px 0 #465a32}h1{font-family:Impact,"Arial Black",sans-serif;font-size:76px;line-height:1;margin:14px 0 10px;letter-spacing:-2.5px;font-weight:900}h1>span:first-child{color:var(--mint)}h1 .title-dot{color:var(--purple)}.tagline{font-size:13px;margin:0;color:var(--white)}.tagline span{color:var(--muted)}.header-meta{display:flex;flex-direction:column;align-items:flex-end;gap:12px;text-align:right}.version{font-size:10px;color:var(--muted);letter-spacing:1px}.provider{border:1px solid #495b39;color:var(--mint);padding:8px 11px;font-size:10px;background:#202a21}.budget{font-size:10px;color:var(--purple)}.game-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.93fr);gap:22px}.arcade-panel,.command-panel{background:var(--panel);border:1px solid var(--line);box-shadow:5px 5px 0 #090b13}.panel-bar{height:43px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:1px}.live-dot{display:inline-block;background:var(--mint);width:6px;height:6px;margin-right:7px}.dim,.seed-label{color:var(--muted)}.seed-label{font-size:9px}.terminal-glyph{font-size:16px;color:var(--mint);font-weight:bold}.hud{display:grid;grid-template-columns:1fr 1fr 1fr;padding:17px 22px 16px;gap:12px}.hud>div{display:flex;flex-direction:column;gap:3px}.hud>div:last-child{text-align:right}.hud-label{color:var(--muted);font-size:9px;letter-spacing:1.3px}.hud strong{font-size:21px;font-weight:bold;line-height:1.2}.hud strong small{font-size:10px;color:var(--muted)}.hearts{color:var(--purple);letter-spacing:2px}.gold{color:var(--gold)}.screen-wrap{position:relative;margin:0 18px;border:1px solid #48505b;background:#111820;overflow:hidden}canvas{display:block;width:100%;height:auto;aspect-ratio:384/432;image-rendering:pixelated;image-rendering:crisp-edges}.crt{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(transparent 0px,transparent 3px,#0003 3px,#0003 4px);box-shadow:inset 0 0 50px #03081288;z-index:1}.screen-corner{position:absolute;width:15px;height:15px;z-index:3;pointer-events:none}.corner-tl{top:0;left:0;border-top:2px solid var(--mint);border-left:2px solid var(--mint)}.corner-br{bottom:0;right:0;border-bottom:2px solid var(--mint);border-right:2px solid var(--mint)}.game-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;z-index:2;background:#090e1e25}.overlay-card{background:#101520ec;border:1px solid #52635a;box-shadow:5px 5px 0 #05091085;width:100%;max-width:320px;padding:26px;text-align:left}.overlay-kicker{font-size:8px;color:var(--cyan);letter-spacing:1px}.overlay-card h2{font-family:Impact,"Arial Black",sans-serif;font-size:54px;line-height:.98;margin:14px 0;color:var(--mint);letter-spacing:1px;white-space:pre-line}.overlay-card p{font-size:11px;color:#c7cede;line-height:1.65;margin:14px 0 19px}.primary{color:#172014;background:var(--mint);border-color:var(--mint);font-weight:bold}.primary:hover:not(:disabled){background:#dcffab;color:#172014;border-color:#dcffab}.start{width:100%;min-height:44px;font-size:12px;display:flex;justify-content:space-between;align-items:center;padding:10px 14px}.start span{font-size:20px}.overlay-hint{display:block;font-size:8px;color:var(--muted);margin-top:12px}.distance-row{display:flex;justify-content:space-between;align-items:center;margin:17px 20px 8px;font-size:9px;color:var(--muted);letter-spacing:.5px}.distance-row strong{font-size:11px;color:var(--white)}progress{display:block;width:calc(100% - 40px);height:6px;margin:0 20px 17px;border:0;appearance:none;background:#303544;accent-color:var(--mint)}progress::-webkit-progress-bar{background:#303544}progress::-webkit-progress-value{background:var(--mint)}progress::-moz-progress-bar{background:var(--mint)}.game-buttons{display:grid;grid-template-columns:1fr 1fr 1.1fr;margin:0 18px;gap:7px}.game-buttons button{font-size:9px;min-height:35px}.legend{display:flex;justify-content:space-between;gap:8px;margin:17px 20px 18px;font-size:8px;letter-spacing:.2px;color:var(--muted)}.legend>span{display:flex;gap:6px;align-items:center}.legend i{display:inline-block;width:8px;height:8px}.legend-wall{background:var(--purple);box-shadow:2px 2px 0 #4c396a}.legend-barrier{background:var(--gold);height:4px!important;box-shadow:0 3px 0 #3f392c}.legend-coin{background:var(--gold);border:1px solid #ffeeaf;transform:rotate(45deg)}.command-body{padding:24px}.section-number{font-size:9px;letter-spacing:1.2px;color:var(--mint);display:flex;gap:13px;align-items:center}.section-number span{color:var(--muted)}.command-heading{font-family:Impact,"Arial Black",sans-serif;font-weight:900;font-size:38px;line-height:1.08;letter-spacing:.3px;margin:15px 0 20px}.strike{color:#848aa0;text-decoration:line-through;text-decoration-color:var(--purple);text-decoration-thickness:3px}.input-wrap{display:flex;border:1px solid #525a69;background:#10141d;align-items:center;height:52px;gap:10px;padding:0 13px}.input-wrap:focus-within{border-color:var(--mint)}.prompt-sign{color:var(--mint);font-size:20px;font-weight:bold}input{width:100%;min-width:0;border:0;background:transparent;color:var(--white);font-size:14px;padding:12px 0;outline:none!important}input::placeholder{color:#7d879d}.send{width:100%;margin-top:9px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;font-size:11px;letter-spacing:.3px;min-height:45px}.send span{font-size:9px;opacity:.6}.input-note{font-size:9px;color:var(--muted);margin:11px 0 14px}.phrase-chips{display:flex;flex-wrap:wrap;gap:6px}.phrase-chips button{font-size:9px;min-height:29px;padding:5px 9px;background:transparent;color:#d0d5e2}.feedback{font-size:10px;color:var(--cyan);min-height:42px;line-height:1.55;margin:13px 0 17px;padding:0 0 0 10px;border-left:2px solid #426059}.feedback[data-error="true"]{color:#ffc6bb;border-color:#ac625b}.voice-block{border-top:1px solid var(--line);padding-top:19px}.mic-button{margin-top:13px;display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px;background:#1b1f2c;min-height:48px;border-style:dashed;font-size:10px;gap:8px}.mic-icon{color:var(--purple);font-size:24px;line-height:1}.mic-led{display:block;width:7px;height:7px;background:#555a6c}.mic-button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan)}.mic-button[aria-pressed="true"] .mic-led{background:var(--cyan);box-shadow:0 0 9px #7ce5db44}.mic-status{font-size:9px;color:var(--purple);margin:9px 0 6px}.privacy{font-size:9px;line-height:1.65;color:#9ea8bc;margin:0}.log-heading{margin-top:21px;padding:15px 0 10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;font-size:8px;letter-spacing:.6px}.command-log{list-style:none;padding:0;margin:0;height:151px;overflow:auto;scrollbar-width:thin;scrollbar-color:#455063 transparent}.command-log li{padding:8px 0;border-bottom:1px solid #29303d;font-size:10px;word-break:break-word}.command-log li strong{display:block;font-size:10px;font-weight:normal;color:#dce3ee}.command-log li span{display:block;font-size:8px;color:var(--mint);margin-top:3px}.command-log li.failed span{color:#ffc6bb}.empty-log{color:#757f94;border-bottom:0!important}.field-notes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:25px;margin:29px 0 18px}.field-notes>div{display:flex;align-items:flex-start;gap:10px}.note-index{color:var(--mint);font-size:9px;padding-top:2px}.field-notes p{margin:0;font-size:10px;color:var(--muted);line-height:1.8}.field-notes strong{display:block;color:var(--white);font-size:10px;margin-bottom:3px}.technical{border-top:1px solid var(--line);padding:12px 0;color:var(--muted);font-size:10px}.technical summary{cursor:pointer;color:#b4bdd0}.technical p{max-width:900px;line-height:1.8}footer{border-top:1px solid var(--line);padding-top:16px;display:flex;justify-content:space-between;gap:20px;font-size:8px;color:#b0b9cb;letter-spacing:.3px}.footer-square{color:var(--mint);padding-left:8px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:850px){.shell{padding:25px 20px}.masthead{align-items:flex-start}.header-meta{padding-top:4px;max-width:205px}.version{font-size:8px}h1{font-size:59px}.tagline{font-size:11px}.tagline span{display:block}.command-body{padding:19px}.game-layout{gap:16px}.overlay-card{padding:20px}.overlay-card h2{font-size:44px}.screen-wrap{margin:0 12px}.legend{font-size:7px;gap:4px;margin:15px 14px}.game-buttons{margin:0 12px}.command-heading{font-size:32px}.field-notes{gap:15px}.hud{padding:17px 15px}.hud strong{font-size:19px}}
+@media(max-width:650px){.shell{max-width:520px;padding:20px 15px}.masthead{display:block;margin-bottom:20px}.header-meta{max-width:none;align-items:flex-start;text-align:left;gap:8px;margin-top:16px}.version{display:none}.provider{padding:5px 9px;font-size:9px}h1{font-size:65px}.tagline{font-size:12px}.tagline span{display:inline}.game-layout{grid-template-columns:1fr;gap:19px}.screen-wrap{margin:0 17px}.hud{padding:17px 20px}.hud strong{font-size:23px}.overlay-card{max-width:310px;padding:25px}.overlay-card h2{font-size:53px}.command-body{padding:23px}.command-heading{font-size:38px}.command-log{height:140px}.field-notes{grid-template-columns:1fr;gap:16px;margin-top:24px}.field-notes strong{display:inline;margin-right:5px}.field-notes p{font-size:10px}footer{flex-direction:column;gap:7px}.game-buttons{margin:0 17px}.legend{margin:17px 20px;font-size:8px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}button:active:not(:disabled){transform:none}.crt{background:none;box-shadow:inset 0 0 25px #03081255}}
+
+/* Mobile text dock: a phone must not require scrolling away from the road to steer. */
+.mobile-only{display:none}
+@media(max-width:650px){
+  .shell{padding-bottom:165px}.header-meta{margin-top:10px;gap:6px}h1{font-size:54px;margin:10px 0 8px}.masthead{margin-bottom:16px}
+  .screen-wrap{width:min(calc(100% - 34px),38vh);width:min(calc(100% - 34px),38svh);margin:0 auto}
+  .game-overlay{padding:12px}.overlay-card{padding:14px}.overlay-card h2{font-size:36px;margin:10px 0}.overlay-card p{font-size:10px;line-height:1.45;margin:10px 0 14px}.overlay-hint{display:none}.start{font-size:10px;min-height:38px}
+  #command-form{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,520px);z-index:10;background:#10121bf5;border-top:1px solid #495849;padding:10px 15px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px #090c1580}
+  #command-form .input-wrap{height:45px}#command-input{font-size:16px}#command-form .send{min-height:38px;margin-top:6px;padding:9px 12px}
+  .mobile-only{display:block;font-size:9px;color:var(--cyan);margin-top:5px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+}
+
+/* End-screen titles are longer than the menu: verified at 320/360/1200 px. */
+.game-overlay[data-status="won"] .overlay-card h2,.game-overlay[data-status="dead"] .overlay-card h2{font-size:clamp(24px,8vw,34px);overflow-wrap:anywhere;}
+</style>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <div class="brand"><div class="eyebrow"><span class="pixel-dot"></span> ПИКСЕЛЬНАЯ АРКАДА / 01</div>
+        <h1><span>ORI</span> I BEGI<span class="title-dot">.</span></h1>
+        <p class="tagline">Твой голос — твой геймпад. <span>Ну или просто напиши.</span></p>
+      </div>
+      <div class="header-meta"><span class="version">8-BIT / 3 ПОЛОСЫ / 0 WASD</span>
+        <span class="provider" id="provider-label">локальный разбор • без LLM</span>
+        <span class="budget" id="provider-budget" hidden></span>
+      </div>
+    </header>
+    <div class="game-layout">
+      <section class="arcade-panel" aria-label="Игровое поле">
+        <div class="panel-bar"><span><span class="live-dot"></span> ЗАБЕГ <span class="dim">/</span> <strong id="game-status">ГОТОВ?</strong></span><span class="seed-label" id="seed-label">SEED 0137</span></div>
+        <div class="hud">
+          <div><span class="hud-label">ЖИЗНИ</span><strong class="hearts" id="lives" aria-label="3 жизни">♥ ♥ ♥</strong></div>
+          <div><span class="hud-label">МОНЕТЫ</span><strong class="gold" id="coins">00</strong></div>
+          <div><span class="hud-label">СКОРОСТЬ</span><strong id="speed">24 <small>м/с</small></strong></div>
+        </div>
+        <div class="screen-wrap">
+          <canvas id="game-canvas" width="384" height="432" role="img" aria-label="Трёхполосная дорога. Жёлтые барьеры можно перепрыгнуть, фиолетовые стены нужно обойти.">Для игры нужен браузер с Canvas.</canvas>
+          <div class="crt" aria-hidden="true"></div>
+          <div class="game-overlay" id="game-overlay">
+            <div class="overlay-card">
+              <span class="overlay-kicker" id="overlay-kicker">НЕТ КНОПОК ДВИЖЕНИЯ</span>
+              <h2 id="overlay-title">ОРИ.<br>И БЕГИ.</h2>
+              <p id="overlay-copy">Скажи «беги» и доберись до финиша. Препятствия не ждут.</p>
+              <button class="primary start" id="start-button" type="button">ПОЕХАЛИ <span>↗</span></button>
+              <span class="overlay-hint" id="overlay-hint">Или напиши «БЕГИ БЛЯТЬ» справа</span>
+            </div>
+          </div>
+          <span class="screen-corner corner-tl" aria-hidden="true"></span><span class="screen-corner corner-br" aria-hidden="true"></span>
+        </div>
+        <div class="distance-row"><span>ДО ФИНИША</span><strong id="distance">0 / 1200 м</strong></div>
+        <progress id="progress" value="0" max="1200" aria-label="Пройденное расстояние"></progress>
+        <div class="game-buttons">
+          <button id="pause-button" type="button" disabled>Ⅱ ПАУЗА</button>
+          <button id="reset-button" type="button">↻ ЗАНОВО</button>
+          <button id="sound-button" type="button" aria-pressed="false">♪ ЗВУК ВЫКЛ</button>
+        </div>
+        <div class="legend"><span><i class="legend-wall"></i> ОБОЙДИ</span><span><i class="legend-barrier"></i> ПЕРЕПРЫГНИ</span><span><i class="legend-coin"></i> СОБЕРИ</span></div>
+      </section>
+      <section class="command-panel" aria-label="Управление словами">
+        <div class="panel-bar"><span>КОМАНДНЫЙ ПУНКТ</span><span class="terminal-glyph" aria-hidden="true">&gt;_</span></div>
+        <div class="command-body">
+          <div class="section-number">01 <span>НАПИШИ КОМАНДУ</span></div>
+          <h2 class="command-heading">СЛОВА ВМЕСТО<br><span class="strike">WASD.</span></h2>
+          <form id="command-form" autocomplete="off">
+            <label class="sr-only" for="command-input">Команда на русском, максимум 240 символов</label>
+            <div class="input-wrap"><span class="prompt-sign" aria-hidden="true">&gt;</span><input id="command-input" name="command" type="text" maxlength="240" placeholder="Беги направо…" spellcheck="false" enterkeyhint="send"></div>
+            <button id="submit-command" class="primary send" type="submit">ДАТЬ КОМАНДУ <span>ENTER ↵</span></button>
+            <div id="mobile-feedback" class="mobile-only" aria-hidden="true">Жду «беги».</div>
+          </form>
+          <p class="input-note">Бег включается один раз. «Лево» / «право» — одна полоса.</p>
+          <div class="phrase-chips" aria-label="Попробуй готовую фразу">
+            <button type="button" data-command="беги блять">БЕГИ БЛЯТЬ</button>
+            <button type="button" data-command="лево">ЛЕВО</button>
+            <button type="button" data-command="право">ПРАВО</button>
+            <button type="button" data-command="прыгай">ПРЫГАЙ</button>
+            <button type="button" data-command="турбо">ТУРБО</button>
+            <button type="button" data-command="обойди препятствие">ОБОЙДИ</button>
+          </div>
+          <div class="feedback" id="feedback" role="status" aria-live="polite">Жду «беги». Мат — опционально, команда — обязательно.</div>
+          <div class="voice-block">
+            <div class="section-number">02 <span>ИЛИ СКАЖИ ВСЛУХ</span></div>
+            <button type="button" class="mic-button" id="mic-button" aria-pressed="false"><span class="mic-icon" aria-hidden="true">▥</span><span id="mic-button-text">ВКЛЮЧИТЬ МИКРОФОН</span><span class="mic-led" aria-hidden="true"></span></button>
+            <p id="mic-status" class="mic-status" role="status" aria-live="polite">Микрофон выключен</p>
+            <p class="privacy">Аудио может отправляться сервису производителя браузера. Игра его не записывает. Микрофон включается только по кнопке.</p>
+          </div>
+          <div class="log-heading"><span>ИСТОРИЯ КОМАНД</span><span class="dim">ПОСЛЕДНИЕ 8</span></div>
+          <ol id="command-log" class="command-log" aria-label="История команд"><li class="empty-log" id="empty-log">&gt; Здесь будет видно, что я понял.</li></ol>
+        </div>
+      </section>
+    </div>
+    <section class="field-notes" aria-label="Как играть">
+      <div><span class="note-index">[01]</span><p><strong>НЕ ОСТАНАВЛИВАЙСЯ.</strong> 1200 метров до финиша. Три жизни. Монеты — приятный бонус, а не условие победы.</p></div>
+      <div><span class="note-index">[02]</span><p><strong>ГОВОРИ КАК ХОЧЕШЬ.</strong> «Долбаёб налево», «беги направо», «направо потом налево». Отрицания и противоречия не двигают героя.</p></div>
+      <div><span class="note-index">[03]</span><p><strong>БЕЗ ПРИТВОРСТВА.</strong> По умолчанию здесь правила, не AI. «Обойди» — локальная эвристика по ближайшим препятствиям.</p></div>
+    </section>
+    <details class="technical"><summary>Управление, приватность и режим модели</summary><p>Текст: введи команду и нажми Enter. Направления сдвигают героя на одну полосу; «в центр» возвращает на середину. «Прыгай» — прыжок на 1 секунду, «турбо» — ускорение на 3 секунды с перезарядкой. Жёлтые барьеры можно перепрыгнуть; фиолетовые стены — нельзя. «Стоп», «продолжай», «заново» управляют забегом. При скрытии вкладки игра ставится на паузу, микрофон отключается.</p><p>Голос зависит от поддержки браузера и разрешения на микрофон. Игра не записывает аудио и не озвучивает ответы. Включённый на сервере Jev / OpenAI получает текст команды и текущую игровую ситуацию. Режим модели нельзя включить переключателем в браузере. Ошибка модели не подменяется локальным разбором. Кнопки паузы и сброса — мгновенное локальное управление с отменой ожидающих ответов.</p></details>
+    <footer><span>ORI I BEGI <span class="dim">/ СЛОВА ДВИГАЮТ.</span></span><span>СДЕЛАНО ИЗ ПИКСЕЛЕЙ, НЕ ИЗ WASD <span class="footer-square">■</span></span></footer>
+  </main>
+  <script>window.__ORI_STATIC_ONLY__=true;
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.OriParser = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  'use strict';
+  const vocabulary = {
+    run: ['беги','бежать','бегом','бежим','побежали','run'],
+    left: ['лево','налево','влево','левее','left'],
+    right: ['право','направо','вправо','правее','right'],
+    center: ['центр','центру','середину','середина','center'],
+    jump: ['прыгай','прыгни','прыжок','прыгнуть','перепрыгни','jump'],
+    boost: ['ускорься','ускорение','ускоряйся','ускорь','быстрее','турбо','boost'],
+    pause: ['стоп','стой','остановись','пауза','останови','pause'],
+    resume: ['продолжай','продолжить','продолжи','возобнови','resume'],
+    restart: ['заново','рестарт','перезапуск','restart']
+  };
+  const words = new Map(Object.entries(vocabulary).flatMap(([action, entries]) => entries.map(word => [word, action])));
+  function normalize(text) {
+    return String(text || '').toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  function parse(text, context = {}) {
+    const no = reason => ({actions:['noop'], reason, provider:'local', heuristic:false});
+    if (typeof text !== 'string' || text.length > 240) return no('Не больше 240 символов');
+    const normalized = normalize(text);
+    const tokens = normalized.split(' ');
+    if (tokens.some(word => ['не','нет','нельзя','без','запрещено','никогда','никак'].includes(word))) return no('Отрицание: ничего не меняю');
+    let actions = [];
+    const ordered = /(?:^| )(?:потом|затем|после)(?: |$)/.test(normalized);
+    for (const word of tokens) {
+      const action = words.get(word);
+      if (action && (ordered || !actions.includes(action))) actions.push(action);
+    }
+    const has = action => actions.includes(action);
+    if (actions.length > 8 || (!ordered && ((has('left') && has('right')) || (has('center') && (has('left') || has('right'))) || (has('pause') && (has('run') || has('resume'))) || (has('restart') && actions.length > 1)))) return no('Противоречивые команды: ничего не меняю');
+    if (!actions.length && /безопасн|обойди|избегай|уклонись/.test(normalized)) {
+      const lane = Number.isInteger(context.lane) ? context.lane : 1;
+      const dangers = [Infinity,Infinity,Infinity];
+      for (const item of context.obstacles || []) {
+        if (item.kind !== 'coin' && item.distance >= 0 && item.lane >= 0 && item.lane <= 2) dangers[item.lane] = Math.min(dangers[item.lane], item.distance);
+      }
+      if (dangers[lane] > 100) return no('Полоса уже безопасна — остаюсь здесь');
+      const best = [0,1,2].sort((a,b) => (dangers[b] - dangers[a] || Math.abs(a-lane) - Math.abs(b-lane)))[0];
+      if (best === lane) return no('Лучшей полосы нет — попробуй прыжок');
+      actions = best === 1 ? ['center'] : best < lane ? Array(lane-best).fill('left') : Array(best-lane).fill('right');
+      return {actions, reason:'Локальная эвристика: выбираю свободную полосу, не AI', provider:'local', heuristic:true};
+    }
+    return actions.length ? {actions, reason:'Команда принята', provider:'local', heuristic:false} : no('Не нашёл команды. Попробуй «беги направо»');
+  }
+  return {parse, normalize};
+});
+
+
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.OriEngine = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  'use strict';
+  const TARGET = 1200, SPEED = 24;
+  function course(seed) {
+    let value = seed || 1, id = 0;
+    const random = () => { value ^= value << 13; value ^= value >>> 17; value ^= value << 5; return (value >>> 0) / 4294967296; };
+    const items = [];
+    for (let position = 115, row = 0; position < TARGET-35; position += 72, row++) {
+      const blocked = Math.floor(random()*3);
+      items.push({id:id++,lane:blocked,position,kind:row%3===0?'barrier':'wall'});
+      const safe = (blocked+1+Math.floor(random()*2))%3;
+      if (row>3 && row%4===0) items.push({id:id++,lane:3-blocked-safe,position,kind:'barrier'});
+      for (const offset of [-20,0,20]) items.push({id:id++,lane:safe,position:position+offset,kind:'coin'});
+    }
+    return items.sort((a,b)=>a.position-b.position);
+  }
+  function create(seed = 137) {
+    return {seed:seed >>> 0, runId:0, status:'menu', lane:1, lives:3, coins:0, distance:0, target:TARGET,
+      jump:0, boost:0, boostCooldown:0, invulnerable:0, elapsed:0, items:course(seed >>> 0), events:[]};
+  }
+  function dispatch(state, actions) {
+    let s = {...state, events:[]};
+    for (const action of actions) {
+      if (action === 'restart') { s = {...create(s.seed),runId:s.runId+1}; continue; }
+      if (action === 'run' && ['menu','paused'].includes(s.status)) s.status='running';
+      if (action === 'resume' && s.status === 'paused') s.status='running';
+      if (action === 'pause' && s.status === 'running') s.status='paused';
+      if (s.status !== 'running') continue;
+      if (action === 'left') s.lane=Math.max(0,s.lane-1);
+      if (action === 'right') s.lane=Math.min(2,s.lane+1);
+      if (action === 'center') s.lane=1;
+      if (action === 'jump' && s.jump<=0) { s.jump=1; s.events.push('jump'); }
+      if (action === 'boost' && s.boostCooldown<=0) { s.boost=3; s.boostCooldown=7; s.events.push('boost'); }
+    }
+    return s;
+  }
+  function step(state, seconds) {
+    if (state.status !== 'running') return state;
+    const dt = Math.max(0, Math.min(0.1, Number(seconds) || 0));
+    const s = {...state, events:[], items:[]};
+    for (const key of ['jump','boost','boostCooldown','invulnerable']) s[key]=Math.max(0,state[key]-dt);
+    s.distance=Math.min(s.target,state.distance + SPEED * (state.boost>0?1.75:1) * dt);
+    s.elapsed+=dt;
+    for (const item of state.items) {
+      if (item.position <= s.distance) {
+        if (item.position >= state.distance && item.lane === s.lane) {
+          if (item.kind === 'coin') { s.coins++; s.events.push('coin'); }
+          else if (!(item.kind === 'barrier' && s.jump>0.08) && s.invulnerable<=0) {
+            s.lives--; s.invulnerable=1.4; s.events.push('hit');
+          }
+        }
+      } else s.items.push(item);
+    }
+    if (s.lives<=0) { s.lives=0; s.status='dead'; s.events.push('dead'); }
+    else if (s.distance>=s.target) { s.status='won'; s.events.push('won'); }
+    return s;
+  }
+  function snapshot(state) {
+    const obstacles=state.items.filter(item=>item.position>=state.distance && item.position-state.distance<=210).map(item=>Object.freeze({id:item.id,lane:item.lane,distance:item.position-state.distance,kind:item.kind}));
+    return Object.freeze({seed:state.seed,runId:state.runId,status:state.status,lane:state.lane,lives:state.lives,coins:state.coins,
+      distance:state.distance,target:state.target,elapsed:state.elapsed,jump:state.jump,jumping:state.jump>0,boost:state.boost,boostCooldown:state.boostCooldown,
+      invulnerable:state.invulnerable,speed:SPEED*(state.boost>0?1.75:1),obstacles:Object.freeze(obstacles)});
+  }
+  return {create,dispatch,step,snapshot,TARGET,SPEED};
+});
+
+
+(function (root,factory) {
+  const api=factory();
+  if(typeof module==='object'&&module.exports) module.exports=api; else root.OriClock=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(){
+  'use strict';
+  const STEP=1/60;
+  function create(){
+    let last=null,accumulator=0;
+    function reset(){last=null;accumulator=0;}
+    function tick(now,active){
+      if(!active||!Number.isFinite(now)){reset();return 0;}
+      if(last===null){last=now;return 0;}
+      accumulator+=Math.max(0,Math.min(0.1,(now-last)/1000)); last=now;
+      const steps=Math.min(6,Math.floor((accumulator+1e-9)/STEP));
+      accumulator=Math.max(0,accumulator-steps*STEP);
+      return steps;
+    }
+    return {tick,reset};
+  }
+  return {create,STEP};
+});
+
+
+(function(root,factory){
+  const api=typeof module==='object'&&module.exports?factory(require('./engine.js'),require('./parser.js')):factory(root.OriEngine,root.OriParser);
+  if(typeof module==='object'&&module.exports) module.exports=api; else root.OriController=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(engine,parser){
+  'use strict';
+  const allowed=new Set(['run','left','right','center','jump','boost','pause','resume','restart','noop']);
+  const statuses=new Set(['menu','running','paused','dead','won']);
+  function contextFromSnapshot(snap){
+    if(!Number.isInteger(snap.lane)||snap.lane<0||snap.lane>2||!statuses.has(snap.status))throw new RangeError('Invalid game context');
+    const obstacles=(Array.isArray(snap.obstacles)?snap.obstacles:[])
+      .filter(item=>item&&Number.isInteger(item.lane)&&item.lane>=0&&item.lane<=2&&Number.isFinite(item.distance)&&item.distance>=0&&item.distance<=10000&&typeof item.kind==='string'&&item.kind.length<=32)
+      .map(({lane,distance,kind})=>({lane,distance,kind})).sort((a,b)=>a.distance-b.distance).slice(0,8);
+    return {lane:snap.lane,status:snap.status,obstacles};
+  }
+  function create(options={}){
+    let state=engine.create(options.seed===undefined?137:options.seed);
+    let config={provider:'local',remote_enabled:false,remaining_requests:0,loading:false};
+    let sequence=0,pending=null,initialization=null;
+    const onState=options.onState||(()=>{}),onResult=options.onResult||(()=>{}),onConfig=options.onConfig||(()=>{});
+    const request=options.fetch || (typeof fetch==='function'?fetch.bind(globalThis):null);
+    const timeoutMs=Math.max(10,Math.min(5000,options.timeoutMs||3000));
+    function invalidate(){sequence++;if(pending)pending.abort();pending=null;}
+    function setState(next){
+      if(next.status!==state.status || next.runId!==state.runId) invalidate();
+      state=next;onState(state);
+    }
+    function control(action){invalidate();setState(engine.dispatch(state,allowed.has(action)?[action]:['noop']));}
+    async function bounded(url,opts,abort){
+      let timer;
+      const timeout=new Promise((_,reject)=>{timer=setTimeout(()=>{abort.abort();reject(Error('timeout'));},timeoutMs);});
+      try{
+        return await Promise.race([(async()=>{const r=await request(url,{...opts,signal:abort.signal});if(!r.ok)throw Error('http');return await r.json();})(),timeout]);
+      }finally{clearTimeout(timer);}
+    }
+    function init(){
+      if(initialization)return initialization;
+      if(options.staticOnly===true || !['http:','https:'].includes(options.protocol||'file:')) {initialization=Promise.resolve({...config});onConfig({...config});return initialization;}
+      config.loading=true;onConfig({...config});
+      initialization=(async()=>{
+        try{
+          const data=await bounded('/api/config',{method:'GET',cache:'no-store'},new AbortController());
+          if(!data || typeof data.remote_enabled!=='boolean') throw Error('config');
+          if(data.remote_enabled){
+            if(!['jev','openai'].includes(data.provider)||!Number.isInteger(data.remaining_requests)||data.remaining_requests<0) {
+              config={provider:'unknown',remote_enabled:true,remaining_requests:0,error:'Некорректная конфигурация сервера — команды заблокированы'};
+            } else config={provider:data.provider,remote_enabled:true,remaining_requests:data.remaining_requests};
+          }else config={provider:'local',remote_enabled:false,remaining_requests:0};
+        }catch(_){config={provider:'local',remote_enabled:false,remaining_requests:0,error:'Конфигурация сервера недоступна. Явно используется локальный разбор.'};}
+        config.loading=false;onConfig({...config});return {...config};
+      })();
+      return initialization;
+    }
+    function emit(text,source,result){const entry={...result,text:String(text||'').slice(0,240),source};onResult(entry);return entry;}
+    function apply(actions){
+      const before=state.status;setState(engine.dispatch(state,actions));
+      return ['dead','won'].includes(before)&&!actions.includes('restart')?'Забег завершён. Скажи «заново»':before==='menu'&&!actions.includes('run')&&!actions.includes('restart')?'Сначала скажи «беги»':before==='paused'&&!actions.some(a=>['resume','run','restart'].includes(a))?'Игра на паузе. Скажи «продолжай»':null;
+    }
+    async function submit(text,source='text'){
+      if(config.loading)await initialization;
+      if(typeof text!=='string'||!text.trim()||text.length>240) return emit(text,source,{actions:['noop'],provider:config.provider,ok:false,reason:'Введи команду: от 1 до 240 символов'});
+      if(!config.remote_enabled){
+        invalidate();const result=parser.parse(text,engine.snapshot(state));const reason=apply(result.actions);
+        return emit(text,source,{...result,reason:reason||result.reason,ok:true});
+      }
+      if(config.remaining_requests<=0)return emit(text,source,{actions:['noop'],provider:config.provider,ok:false,reason:config.error||'Лимит запросов исчерпан. Без автоматического перехода на локальный разбор.'});
+      invalidate();const id=sequence,runId=state.runId,status=state.status,abort=new AbortController();pending=abort;
+      config.remaining_requests--;onConfig({...config});
+      const snap=engine.snapshot(state);
+      const context=contextFromSnapshot(snap);
+      const stale=()=>id!==sequence||runId!==state.runId||status!==state.status;
+      try{
+        const data=await bounded('/api/intent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,context})},abort);
+        if(stale())return emit(text,source,{actions:['noop'],provider:config.provider,ok:false,stale:true,reason:'Устаревший ответ отброшен'});
+        if(data.error || data.provider!==config.provider || !Array.isArray(data.actions) || data.actions.length<1 || data.actions.length>8 || !data.actions.every(a=>allowed.has(a)) || !Number.isFinite(data.confidence) || data.confidence<0 || data.confidence>1)throw Error('invalid');
+        pending=null;
+        const actions=data.confidence<0.65?['noop']:data.actions;
+        const reason=apply(actions)|| (data.confidence<0.65?'Модель не уверена: ничего не меняю':actions.every(a=>a==='noop')?'Модель не нашла команду':'Команда модели принята');
+        return emit(text,source,{actions,provider:data.provider,confidence:data.confidence,latency_ms:data.latency_ms,ok:true,reason});
+      }catch(_){
+        return emit(text,source,{actions:['noop'],provider:config.provider,ok:false,stale:stale(),reason:stale()?'Устаревший ответ отброшен':'Ошибка / таймаут модели. Движение не изменено; локальной подмены нет.'});
+      }finally{if(pending===abort)pending=null;}
+    }
+    return {init,submit,control,cancel:invalidate,step:dt=>setState(engine.step(state,dt)),snapshot:()=>engine.snapshot(state),state:()=>state,config:()=>({...config})};
+  }
+  return {create,contextFromSnapshot};
+});
+
+
+(function(root,factory){
+  const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.OriVoice=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(){
+  'use strict';
+  const errors={
+    'not-allowed':'Нет разрешения на микрофон. Разреши его в браузере и нажми кнопку снова.',
+    'service-not-allowed':'Сервис распознавания запрещён браузером.',
+    'network':'Сеть распознавания недоступна. Используй текст.',
+    'audio-capture':'Микрофон не найден или занят. Используй текст.',
+    'language-not-supported':'Русский язык распознавания не поддерживается.',
+    'aborted':'Распознавание остановлено.'
+  };
+  function create(options={}){
+    const Recognition=options.Recognition;
+    const schedule=options.schedule||setTimeout,cancelTimer=options.cancelTimer||clearTimeout;
+    const onStatus=options.onStatus||(()=>{}),onText=options.onText||(()=>{}),isHidden=options.isHidden||(()=>false);
+    let wanted=false,recognizer=null,timer=null,restarts=0,generation=0;
+    let status={supported:!!Recognition,active:false,state:Recognition?'off':'unsupported',message:Recognition?'Микрофон выключен':'Распознавание речи не поддерживается. Текст работает.'};
+    function report(state,message){status={supported:!!Recognition,active:wanted,state,message};onStatus({...status});}
+    function stop(message='Микрофон выключен',state='off'){
+      wanted=false;generation++;if(timer!==null)cancelTimer(timer);timer=null;
+      const previous=recognizer;recognizer=null;
+      if(previous){try{previous.abort();}catch(_){/* already ended */}}
+      report(state,message);
+    }
+    function launch(){
+      if(!wanted||isHidden()){stop('Вкладка скрыта — микрофон выключен');return;}
+      const current=++generation,seen=new Set();
+      try{
+        const r=new Recognition();recognizer=r;r.lang='ru-RU';r.continuous=true;r.interimResults=false;
+        const valid=()=>wanted&&current===generation&&recognizer===r;
+        r.onstart=()=>{if(valid())report('listening','Слушаю по-русски • скажи команду');};
+        r.onresult=event=>{
+          if(!valid())return;if(isHidden()){stop('Вкладка скрыта — микрофон выключен');return;}
+          for(let i=event.resultIndex||0;i<event.results.length;i++){
+            const result=event.results[i];
+            if(result.isFinal&&!seen.has(i)){
+              seen.add(i);const text=String(result[0].transcript||'').trim();
+              if(text)onText(text.slice(0,240));
+            }
+          }
+        };
+        r.onerror=event=>{
+          if(!valid())return;
+          if(event.error==='no-speech'){report('waiting','Не услышал команду. Жду…');return;}
+          stop(errors[event.error]||'Ошибка распознавания. Используй текст.','error');
+        };
+        r.onend=()=>{
+          if(!valid())return;recognizer=null;
+          if(isHidden()){stop('Вкладка скрыта — микрофон выключен');return;}
+          if(restarts>=3){stop('Распознавание завершилось 3 раза. Нажми микрофон, чтобы включить снова.','off');return;}
+          restarts++;report('waiting','Связь с распознаванием…');
+          timer=schedule(()=>{timer=null;launch();},300+restarts*200);
+        };
+        report('starting','Запрашиваю микрофон…');r.start();
+      }catch(_){stop('Не удалось запустить распознавание. Проверь микрофон / разрешение.','error');}
+    }
+    function start(){
+      if(!Recognition){report('unsupported','Распознавание речи не поддерживается. Текст работает.');return;}
+      if(wanted)return;wanted=true;restarts=0;launch();
+    }
+    return {start,stop,hidden:()=>stop('Вкладка скрыта — микрофон выключен'),snapshot:()=>Object.freeze({...status})};
+  }
+  return {create};
+});
+
+
+/* Browser shell. All command sources share OriController; no movement keybindings. */
+(function(){
+  'use strict';
+  const $=id=>document.getElementById(id), canvas=$('game-canvas'),ctx=canvas.getContext('2d');
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clock=OriClock.create();
+  const statusNames={menu:'ГОТОВ?',running:'БЕЖИМ',paused:'ПАУЗА',dead:'КОНЕЦ',won:'ФИНИШ'};
+  const actionNames={run:'БЕГ',left:'НАЛЕВО',right:'НАПРАВО',center:'В ЦЕНТР',jump:'ПРЫЖОК',boost:'ТУРБО',pause:'ПАУЗА',resume:'ПРОДОЛЖИТЬ',restart:'ЗАНОВО',noop:'БЕЗ ДВИЖЕНИЯ'};
+  const sources={text:'ТЕКСТ',chip:'ФРАЗА',voice:'ГОЛОС',button:'КНОПКА',qa:'QA',system:'СИСТЕМА'};
+  let dirty=true,lastHud=-Infinity,lastStatus='menu',audio=null,soundEnabled=false;
+  const set=(element,value)=>{if(element.textContent!==String(value))element.textContent=String(value);};
+  function bleep(kind){
+    if(!soundEnabled||!audio||audio.state!=='running')return;
+    try{
+      const oscillator=audio.createOscillator(),gain=audio.createGain(),now=audio.currentTime;
+      const frequencies={coin:880,jump:440,boost:620,hit:110,dead:70,won:1040,command:260};
+      oscillator.type='square';oscillator.frequency.setValueAtTime(frequencies[kind]||260,now);
+      oscillator.frequency.exponentialRampToValueAtTime(Math.max(45,(frequencies[kind]||260)*.7),now+.09);
+      gain.gain.setValueAtTime(.025,now);gain.gain.exponentialRampToValueAtTime(.001,now+.12);
+      oscillator.connect(gain);gain.connect(audio.destination);oscillator.start(now);oscillator.stop(now+.13);
+    }catch(_){/* Optional audio cannot block the game. */}
+  }
+  function log(result){
+    const empty=$('empty-log');if(empty)empty.remove();
+    const item=document.createElement('li'),phrase=document.createElement('strong'),detail=document.createElement('span');
+    set(phrase,`[${sources[result.source]||'ТЕКСТ'}] «${result.text}»`);
+    const label=result.provider==='local'?'ЛОКАЛЬНО':String(result.provider).toUpperCase();
+    set(detail,`${label} → ${result.actions.map(a=>actionNames[a]||'БЕЗ ДВИЖЕНИЯ').join(' · ')}${result.stale?' / УСТАРЕЛО':''}`);
+    item.classList.toggle('failed',!result.ok);item.append(phrase,detail);$('command-log').prepend(item);
+    if($('command-log').childElementCount>8)$('command-log').lastChild.remove();
+    set($('feedback'),result.reason);set($('mobile-feedback'),result.reason);$('feedback').dataset.error=String(!result.ok);
+    bleep('command');dirty=true;
+  }
+  function configuration(config){
+    set($('provider-label'),config.loading?'проверяю режим сервера…':config.remote_enabled?`${String(config.provider).toUpperCase()} • серверная модель`:'локальный разбор • без LLM');
+    $('provider-budget').hidden=!config.remote_enabled;
+    set($('provider-budget'),`ОСТАЛОСЬ ЗАПРОСОВ: ${config.remaining_requests}`);
+    if(config.error){set($('feedback'),config.error);set($('mobile-feedback'),config.error);}
+    $('submit-command').disabled=!!config.loading;
+  }
+  const game=OriController.create({staticOnly:window.__ORI_STATIC_ONLY__===true,protocol:location.protocol,fetch:typeof window.fetch==='function'?window.fetch.bind(window):undefined,
+    onResult:log,onConfig:configuration,onState:state=>{
+      dirty=true;
+      for(const event of new Set(state.events))bleep(event);
+      if(state.status!==lastStatus){clock.reset();lastStatus=state.status;updateState(state);lastHud=-Infinity;
+        if(['dead','won'].includes(state.status))voice.stop('Забег завершён — микрофон выключен');
+      }
+    }});
+  const voice=OriVoice.create({Recognition:window.SpeechRecognition||window.webkitSpeechRecognition,onText:text=>game.submit(text,'voice'),isHidden:()=>document.hidden,
+    onStatus:status=>{
+      $('mic-button').disabled=!status.supported;$('mic-button').setAttribute('aria-pressed',String(status.active));
+      set($('mic-button-text'),status.active?'ВЫКЛЮЧИТЬ МИКРОФОН':'ВКЛЮЧИТЬ МИКРОФОН');set($('mic-status'),status.message);
+    }});
+  const voiceStatus=voice.snapshot();$('mic-button').disabled=!voiceStatus.supported;set($('mic-status'),voiceStatus.message);
+  function updateState(state){
+    $('game-overlay').dataset.status=state.status;
+    set($('game-status'),statusNames[state.status]);
+    $('pause-button').disabled=!['running','paused'].includes(state.status);
+    set($('pause-button'),state.status==='paused'?'▶ ПРОДОЛЖИТЬ':'Ⅱ ПАУЗА');
+    $('game-overlay').hidden=state.status==='running';
+    const overlays={
+      menu:['НЕТ КНОПОК ДВИЖЕНИЯ','ОРИ.\nИ БЕГИ.','Скажи «беги» и доберись до финиша. Препятствия не ждут.','ПОЕХАЛИ ↗','Или напиши «БЕГИ БЛЯТЬ» в командном пункте'],
+      paused:['ДОРОГА ПОДОЖДЁТ','СТОП-\nКАДР.','Выдохни. Забег продолжится с того же места.','ПРОДОЛЖИТЬ ↗','Команда «продолжай» тоже работает'],
+      dead:['ТРИ ЖИЗНИ ПОЗАДИ','НЕ\nДОБЕЖАЛ.',`Пройдено ${Math.floor(state.distance)} м. Монет: ${state.coins}. Ещё один забег?`,'ЕЩЁ ЗАБЕГ ↻','Или скажи «заново»'],
+      won:['1200 МЕТРОВ. ТВОИ.','ТЫ\nДОБЕЖАЛ!',`Финиш за ${state.elapsed.toFixed(1)} с. Монет: ${state.coins}. Жизней осталось: ${state.lives}.`,'ЕЩЁ ЗАБЕГ ↻','Слова действительно двигают.']
+    };
+    if(overlays[state.status]){
+      const [kicker,title,copy,button,hint]=overlays[state.status];
+      set($('overlay-kicker'),kicker);set($('overlay-title'),title);set($('overlay-copy'),copy);set($('start-button'),button);set($('overlay-hint'),hint);
+    }
+  }
+  function hud(state){
+    set($('lives'),Array.from({length:3},(_,i)=>i<state.lives?'♥':'♡').join(' '));
+    $('lives').setAttribute('aria-label',`${state.lives} из 3 жизней`);set($('coins'),String(state.coins).padStart(2,'0'));
+    set($('distance'),`${Math.floor(state.distance)} / ${state.target} м`);
+    set($('speed'),state.boost>0?'42 м/с • ТУРБО':'24 м/с');$('progress').value=state.distance;
+    set($('seed-label'),`SEED ${String(state.seed).padStart(4,'0')}`);
+  }
+  const player=[
+    '....mmmm....','...mmmmmm...','...mppppm...','..pppppppp..','..pccccc.p..','..pccccc.p..','...pppppp...',
+    '....dddd....','..dddddddd..','.cddcddcddc.','.cddcddcddc.','.cddddddddc.','..dddddddd..','...dddddd...',
+    '...bb..bb...','...bb..bb...','...bb..bb...','..vvv..vvv..'
+  ];
+  const palette={m:'#c6ff68',p:'#ffce98',c:'#7ce5db',d:'#384660',b:'#a9bbdb',v:'#b59aff'};
+  function rectangle(x,y,w,h,color){ctx.fillStyle=color;ctx.fillRect(Math.round(x),Math.round(y),w,h);}
+  function pixelSprite(rows,x,y,size){rows.forEach((row,yy)=>{[...row].forEach((key,xx)=>{if(palette[key])rectangle(x+xx*size,y+yy*size,size,size,palette[key]);});});}
+  function render(state){
+    ctx.imageSmoothingEnabled=false;
+    rectangle(0,0,384,432,'#111923');
+    const scroll=state.distance*1.65;
+    // Sidewalk tiles, cables and original little city facades.
+    for(let y=-48;y<450;y+=48){const yy=y+(scroll%48);rectangle(0,yy,38,46,'#18262d');rectangle(346,yy,38,46,'#1b2535');rectangle(5,yy+5,22,32,'#24313b');rectangle(356,yy+9,22,28,'#253048');rectangle(9,yy+9,5,8,'#668c75');rectangle(18,yy+9,5,8,'#456269');rectangle(359,yy+13,5,7,'#5f547e');rectangle(369,yy+13,5,7,'#5b797a');}
+    rectangle(40,0,304,432,'#202b37');rectangle(45,0,294,432,'#1b2431');
+    rectangle(38,0,3,432,'#557567');rectangle(343,0,3,432,'#557567');
+    for(let y=-32;y<465;y+=32){const yy=y+(scroll%32);rectangle(38,yy,3,14,'#c6ff68');rectangle(343,yy,3,14,'#7ce5db');}
+    for(const x of [141,241]){for(let y=-40;y<470;y+=40)rectangle(x,y+(scroll%40),2,19,'#3d4959');}
+    for(let i=0;i<12;i++){const y=(i*47+scroll*.7)%432;rectangle(53+(i*71)%277,y,3,2,'#2b3643');}
+    const laneX=lane=>92+lane*100;
+    for(const item of state.items){
+      const distance=item.position-state.distance,y=348-distance*1.65;
+      if(y < -35 || y>410)continue;
+      const x=laneX(item.lane);
+      if(item.kind==='coin'){
+        rectangle(x-5,y-6,10,12,'#e8b85a');rectangle(x-7,y-3,14,6,'#ffcf68');rectangle(x-3,y-4,3,8,'#fff0b0');rectangle(x+4,y+6,5,3,'#101725');
+      }else if(item.kind==='barrier'){
+        rectangle(x-29,y+8,60,8,'#101725');rectangle(x-26,y-7,52,15,'#d2a859');rectangle(x-26,y-7,52,4,'#ffdb80');
+        for(let i=0;i<4;i++)rectangle(x-21+i*13,y-3,6,7,'#483e32');rectangle(x-22,y+8,5,9,'#6d6370');rectangle(x+17,y+8,5,9,'#6d6370');
+      }else{
+        rectangle(x-32,y+20,68,9,'#0f1724');rectangle(x-29,y-29,58,51,'#645083');rectangle(x-29,y-29,58,6,'#b59aff');rectangle(x-24,y-19,48,36,'#433b5e');
+        rectangle(x-18,y-12,6,22,'#a08bbb');rectangle(x+12,y-12,6,22,'#a08bbb');rectangle(x-12,y-6,24,8,'#a08bbb');rectangle(x-3,y-13,6,23,'#433b5e');
+      }
+    }
+    const x=laneX(state.lane),lift=state.jump>0?Math.sin(Math.PI*(1-state.jump))*30:0;
+    rectangle(x-15,357,30,6,'#0c1420');
+    if(state.boost>0){rectangle(x-11,380,4,17,'#7ce5db');rectangle(x+8,373,4,22,'#b59aff');rectangle(x-3,388,5,24,'#c6ff68');}
+    ctx.globalAlpha=state.invulnerable>0&&!reduced?.55:1;
+    pixelSprite(player,x-18,304-lift,3);
+    const stride=!reduced&&state.status==='running'&&Math.floor(state.elapsed*9)%2===0?3:0;
+    if(stride)rectangle(x-12,356-lift,9,3,'#b59aff');
+    ctx.globalAlpha=1;
+    if(state.invulnerable>0){rectangle(x-22,301-lift,3,58,'#b59aff');rectangle(x+20,301-lift,3,58,'#b59aff');}
+    if(state.target-state.distance<180){const y=348-(state.target-state.distance)*1.65;
+      for(let row=0;row<2;row++)for(let col=0;col<15;col++)rectangle(44+col*20,y+row*10,20,10,(row+col)%2?'#c6ff68':'#172014');}
+    rectangle(54,8,91,18,'#111923');ctx.fillStyle='#94acba';ctx.font='9px monospace';ctx.fillText('1200 m / EXIT',60,20);
+    rectangle(248,8,81,18,'#111923');ctx.fillStyle='#7ce5db';ctx.fillText(state.boost>0?'TURBO >>>':'NO WASD',255,20);
+  }
+  async function send(text,source){return game.submit(text,source);}
+  $('command-form').addEventListener('submit',async event=>{
+    event.preventDefault();const text=$('command-input').value;$('command-input').value='';
+    await send(text,'text');$('command-input').focus();
+  });
+  document.querySelectorAll('[data-command]').forEach(button=>button.addEventListener('click',()=>send(button.dataset.command,'chip')));
+  $('start-button').addEventListener('click',()=>{
+    const status=game.state().status;
+    if(['dead','won'].includes(status)){game.control('restart');return;}
+    return send(status==='paused'?'продолжай':'беги','button');
+  });
+  $('pause-button').addEventListener('click',()=>{
+    const action=game.state().status==='paused'?'resume':'pause';game.control(action);
+    log({text:action==='pause'?'пауза':'продолжить',actions:[action],provider:'local',source:'system',ok:true,reason:'Мгновенная системная кнопка • без обращения к LLM'});
+  });
+  $('reset-button').addEventListener('click',()=>{
+    voice.stop();game.control('restart');clock.reset();
+    log({text:'заново',actions:['restart'],provider:'local',source:'system',ok:true,reason:'Новый забег. Скажи «беги»'});
+  });
+  $('mic-button').addEventListener('click',()=>{if(voice.snapshot().active)voice.stop();else voice.start();});
+  $('sound-button').addEventListener('click',async()=>{
+    if(soundEnabled){soundEnabled=false;}else{
+      const Audio=window.AudioContext||window.webkitAudioContext;
+      if(!Audio){set($('feedback'),'Звук не поддерживается этим браузером');return;}
+      try{audio=audio||new Audio();await audio.resume();soundEnabled=true;bleep('command');}catch(_){set($('feedback'),'Не удалось включить звук');return;}
+    }
+    $('sound-button').setAttribute('aria-pressed',String(soundEnabled));set($('sound-button'),soundEnabled?'♪ ЗВУК ВКЛ':'♪ ЗВУК ВЫКЛ');
+  });
+  document.addEventListener('visibilitychange',()=>{
+    clock.reset();
+    if(document.hidden){voice.hidden();game.cancel();if(game.state().status==='running')game.control('pause');}
+  });
+  window.addEventListener('pagehide',()=>{voice.stop();game.cancel();});
+  function frame(now){
+    const count=clock.tick(now,!document.hidden&&game.state().status==='running');
+    for(let i=0;i<count;i++)game.step(OriClock.STEP);
+    if(!document.hidden){if(dirty){render(game.state());dirty=false;}if(now-lastHud>=100){hud(game.state());lastHud=now;}}
+    requestAnimationFrame(frame);
+  }
+  window.OriGame=Object.freeze({snapshot:()=>game.snapshot(),submit:text=>send(text,'qa')});
+  updateState(game.state());hud(game.state());render(game.state());game.init();requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
